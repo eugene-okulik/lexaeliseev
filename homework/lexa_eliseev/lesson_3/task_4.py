@@ -2,4 +2,4 @@
 x = 2
 y = 3
 print((x**2 + y**2) ** 0.5)
-print(1/2 * (x * y))
+print(1 / 2 * (x * y))
