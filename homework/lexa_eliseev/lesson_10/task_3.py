@@ -1,34 +1,45 @@
 def decorator(func):
-    def wrapper(first, second, operation):
-        # func(first, second, operation)
-        result = func(first, second, operation)
+    def wrapper(first, second):
+        operation = None
         if second < 0 or first < 0:
-            return first * second
+            operation = "*"
+
         elif first == second:
-            return first + second
+            operation = "+"
+
         elif first > second:
-            return first - second
+            operation = "-"
+            first, second = second, first
+
         elif second > first:
-            return first / second
-        # elif first < 0 or second < 0:
-        #     return first * second
-        return result
+            operation = "/"
+
+        return func(first, second, operation)
+
     return wrapper
 
 
 @decorator
 def calc(first, second, operation):
     if operation == '+':
-        return first + second
+        result = first + second
+
     elif operation == '-':
-        return first - second
+        result = first - second
+
     elif operation == '*':
-        return first * second
+        result = first * second
+
     elif operation == '/':
-        return first / second
+        result = first / second
+
+    else:
+        raise ValueError("Operation is invalid")
+
+    return result
 
 
-print(calc(1, 1, '-'))
-print(calc(10, 1, '*'))
-print(calc(10, 100, '*'))
-print(calc(-10, -100, '/'))
+print(calc(1, 1))
+print(calc(10, 1))
+print(calc(10, 100))
+print(calc(-10, -100))
