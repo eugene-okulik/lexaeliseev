@@ -12,13 +12,14 @@ class Book:
     def reservation_status(self):
         return ", зарезервирована" if self.reservation is True else ""
 
-    def print_info_book(self):
-        print(
+    def __str__(self):
+        return (
             f"Название: {self.title_book}, "
             f"Автор: {self.author_book}, "
             f"страниц: {self.count_pages}, "
             f"предмет: {self.page_material} "
-            f"{self.reservation_status()}")
+            f"{self.reservation_status()}"
+        )
 
 
 class SchoolBook(Book):
@@ -29,13 +30,12 @@ class SchoolBook(Book):
         self.group = group
         self.example = example
 
-    def print_info_book(self):
-        print(
+    def __str__(self):
+        return (
             f"Название: {self.title_book}, "
             f"Автор: {self.author_book}, "
             f"страниц: {self.count_pages}, "
-            f"предмет: {self.subject}, "
-            f"класс: {self.group}"
+            f"предмет: {self.page_material} "
             f"{self.reservation_status()}")
 
 book_1 = Book("Идиот", "Достоевский", 500, "2-266-11156-6", reservation=False)
@@ -44,16 +44,16 @@ book_3 = Book("Дарт Бэйн: Правило двух", "Дрю Карпиш
 book_4 = Book("Дарт Бэйн: Династия зла", "Дрю Карпишин", 352, "980 ДБЯ", reservation=False)
 book_5 = Book("Дарт Плэгас»", "Джеймс Лучено", 428, "67 ДБЯ — 65 ДБЯ", reservation=True)
 
-Book.print_info_book(book_1)
-Book.print_info_book(book_2)
-Book.print_info_book(book_3)
-Book.print_info_book(book_4)
-Book.print_info_book(book_5)
+print(book_1)
+print(book_2)
+print(book_3)
+print(book_4)
+print(book_5)
 
 book_6 = SchoolBook("Алгебра", "Иванов И.С.", 321, "2-266-11456-4", "Математика", 7)
 book_7 = SchoolBook("Литература для продвинутых", "Петров П.А.", 643, "2-266-5356-1", "Литература", 10, example=False)
 book_8 = SchoolBook("Химия", "Самсонова А.А.", 323, "2-166-356-7", "Химия", 9, reservation=True)
 
-SchoolBook.print_info_book(book_6)
-SchoolBook.print_info_book(book_7)
-SchoolBook.print_info_book(book_8)
+print(book_6)
+print(book_7)
+print(book_8)
