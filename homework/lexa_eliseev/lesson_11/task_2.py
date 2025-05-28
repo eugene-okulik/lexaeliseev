@@ -38,6 +38,7 @@ class SchoolBook(Book):
             f"предмет: {self.page_material} "
             f"{self.reservation_status()}")
 
+
 book_1 = Book("Идиот", "Достоевский", 500, "2-266-11156-6", reservation=False)
 book_2 = Book("Дарт Бэйн: Путь разрушения", "Дрю Карпишин", 416, "1003—1000 ДБЯ", reservation=False)
 book_3 = Book("Дарт Бэйн: Правило двух", "Дрю Карпишин", 352, "1000 — 990 ДБЯ", reservation=False)
