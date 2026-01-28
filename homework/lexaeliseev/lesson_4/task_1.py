@@ -47,7 +47,7 @@ poped = my_list.pop(1)
 Для того, что хранится под ключом ‘dict’:добавьте элемент с ключом ('i am a tuple',) и любым значением,
 удалите какой-нибудь элемент
 """
-my_new_dict = my_dict['dict']['new_key'] = 'new_value'
+my_new_dict = my_dict['dict']['(i am a tuple,)'] = 'new_value'
 print(my_dict)
 
 dict_delete = my_dict['dict'].pop("delete")
