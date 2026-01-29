@@ -58,5 +58,5 @@ dict_delete = my_dict['dict'].pop("delete")
 my_set = my_dict['set'].add('new1')
 set_delete = my_dict['set'].discard(1)
 
-"""В конце выведите на экран весь словарь"""
+""" В конце выведите на экран весь словарь """
 print(my_dict)
