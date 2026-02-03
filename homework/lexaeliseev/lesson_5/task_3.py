@@ -1,4 +1,4 @@
-"""Задание 3"""
+""" Задание 3 """
 
 students = ['Ivanov', 'Petrov', 'Sidorov']
 subjects = ['math', 'biology', 'geography']
