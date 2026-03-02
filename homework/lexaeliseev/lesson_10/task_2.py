@@ -14,4 +14,5 @@ def repeat_me(func):
 def example(text):
     print(text.upper())
 
+
 example("ТЕСТ", count=5)
