@@ -34,6 +34,7 @@ book_1.print_info()
 book_2.print_info()
 book_3.print_info()
 book_4.print_info()
+book_5.reservation_status = True
 book_5.print_info()
 
 
@@ -65,4 +66,6 @@ book_6.print_info()
 book_7.print_info()
 book_8.print_info()
 book_9.print_info()
+book_10.reservation_status = True
 book_10.print_info()
+
