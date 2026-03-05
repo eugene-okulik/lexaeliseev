@@ -68,5 +68,3 @@ book_8.print_info()
 book_9.print_info()
 book_10.reservation_status = True
 book_10.print_info()
-
-
