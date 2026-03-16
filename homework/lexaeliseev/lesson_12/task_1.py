@@ -44,7 +44,7 @@ class Bouquet:
         self.flowers.append(flower)
 
     def __str__(self):
-        bouquet = f"Мой букет:\n"
+        bouquet = "Мой букет:\n"
         for flower in self.flowers:
             bouquet = f"{bouquet} + {str(flower)} + \n"
         return bouquet
