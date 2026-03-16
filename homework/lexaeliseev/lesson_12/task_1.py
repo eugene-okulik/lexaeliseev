@@ -46,7 +46,7 @@ class Bouquet:
     def __str__(self):
         bouquet = f"Мой букет:\n"
         for flower in self.flowers:
-            bouquet = bouquet + str(flower) + "\n"
+            bouquet = f"{bouquet} + {str(flower)} + \n"
         return bouquet
 
     def total_price(self):
