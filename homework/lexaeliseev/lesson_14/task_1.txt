@@ -1,0 +1,99 @@
+-- Создание студента
+INSERT INTO students (name, second_name, group_id) VALUES ('Alexey', 'Eliseev', 1)
+
+-- Проверка
+SELECT *
+FROM students
+	WHERE second_name  LIKE '%Eliseev%'
+
+
+
+-- Создание книги и бронирование ее за студентом
+INSERT INTO books (title, taken_by_student_id) VALUES ('My Journal', 22523)
+INSERT INTO books (title, taken_by_student_id) VALUES ('My Diary', 22523)
+
+-- Проверка
+SELECT *
+FROM books
+	WHERE taken_by_student_id = '22523'
+
+
+-- Создание группы и вступление в нее студента
+INSERT INTO `groups`  (title, start_date, end_date) VALUES ('Mems', '24/03/2026', '30/03/2026')
+UPDATE students SET group_id = 22522 WHERE id = 22523
+
+-- Проверка
+SELECT *
+FROM `groups`
+	Where title = 'Mems'
+
+
+
+-- Создание предметов
+INSERT INTO subjects  (title) VALUES ('Ежедневный мем')
+INSERT INTO subjects  (title) VALUES ('Ежедневный мем 1')
+
+
+-- Проверка
+SELECT  *
+FROM subjects
+WHERE title LIKE '%Ежедневный мем%'
+
+
+
+-- Создание занятий для предметов
+INSERT INTO lessons  (title, subject_id) VALUES ('Тренировка', 22524)
+INSERT INTO lessons  (title, subject_id) VALUES ('Тренировка 1', 22525)
+
+-- Проверка
+SELECT  *
+FROM lessons
+WHERE id IN (75644, 75643)
+
+
+-- Проставление оценки за занятие
+INSERT INTO marks  (value, lesson_id, student_id) VALUES (5, 75644, 22523)
+INSERT INTO marks  (value, lesson_id, student_id) VALUES (5, 75643, 22523)
+
+
+-- Проверка
+SELECT *
+FROM marks
+WHERE student_id = '22523'
+
+
+
+
+--- Получите информацию из базы данных:
+
+--- Все оценки студента
+SELECT *
+FROM marks
+WHERE student_id = '22523'
+
+--- Все книги, которые находятся у студента
+SELECT *
+FROM books
+WHERE taken_by_student_id = '22523'
+
+
+--- Для вашего студента выведите всё, что о нем есть в базе:
+--- группа, книги, оценки с названиями занятий и предметов
+--- (всё одним запросом с использованием Join)
+
+SELECT
+  g.title as Название_группы,
+  CONCAT(s.name, ' ', s.second_name) as Студент,
+  b.title as Книга_из_библиотеки,
+  s2.title Предмет,
+  l.title as Занятие,
+  m.value as Оценка
+FROM
+  students as s
+  INNER JOIN books as b ON s.id = b.taken_by_student_id
+  INNER JOIN marks m ON m.student_id = s.id
+  INNER JOIN `groups` g ON s.group_id = g.id
+  INNER JOIN lessons l ON m.lesson_id = l.id
+  INNER JOIN subjects s2 ON l.subject_id = s2.id
+WHERE
+  s.id = 22523
