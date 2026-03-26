@@ -1,5 +1,5 @@
 -- Создание студента
-INSERT INTO students (name, second_name, group_id) VALUES ('Alexey', 'Eliseev', 1)
+INSERT INTO students (name, second_name, group_id) VALUES ('Alexey', 'Eliseev', NULL)
 
 -- Проверка
 SELECT *
