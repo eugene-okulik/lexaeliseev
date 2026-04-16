@@ -16,8 +16,8 @@ cursor.execute("INSERT INTO students (name, second_name, group_id) VALUES (%s, %
                ('Борис', 'Лапкин', None))
 student_id = cursor.lastrowid
 
-cursor.execute(f"""SELECT * 
-                FROM students 
+cursor.execute(f"""SELECT *
+                FROM students
                 WHERE id='{student_id}'
                 """)
 print(cursor.fetchall())
@@ -28,8 +28,8 @@ cursor.execute("INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)",
 cursor.execute("INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)", ('New_diary', student_id))
 
 cursor.execute(f"""
-                SELECT * 
-                FROM books 
+                SELECT *
+                FROM books
                 WHERE taken_by_student_id='{student_id}'
                 """)
 print(cursor.fetchall())
