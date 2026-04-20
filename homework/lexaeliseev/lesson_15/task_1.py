@@ -16,22 +16,19 @@ cursor.execute("INSERT INTO students (name, second_name, group_id) VALUES (%s, %
                ('Борис', 'Лапкин', None))
 student_id = cursor.lastrowid
 
-cursor.execute(f"""SELECT *
+cursor.execute("""SELECT *
                 FROM students
-                WHERE id='{student_id}'
-                """)
+                WHERE id=%s""", (student_id,))
 print(cursor.fetchall())
 
 
 """Создание книги, бронирование ее за студентом и проверка"""
-cursor.execute("INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)", ('My New_journal', student_id))
-cursor.execute("INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)", ('New_diary', student_id))
+cursor.executemany("INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)",
+                   [('My New_journal', student_id), ('New_diary', student_id)])
 
-cursor.execute(f"""
-                SELECT *
+cursor.execute("""SELECT *
                 FROM books
-                WHERE taken_by_student_id='{student_id}'
-                """)
+                WHERE taken_by_student_id=%s""", (student_id,))
 print(cursor.fetchall())
 
 
@@ -40,64 +37,59 @@ cursor.execute("INSERT INTO `groups` (title, start_date, end_date) VALUES (%s, %
                ('New_mems', '24/04/2026', '30/04/2026'))
 
 group_id = cursor.lastrowid
-cursor.execute(f"UPDATE students SET group_id = {group_id} WHERE id = {student_id}")
+cursor.execute("UPDATE students SET group_id = %s WHERE id = %s", (group_id, student_id))
 
-cursor.execute(f"SELECT * FROM `groups` WHERE id = '{group_id}'")
+cursor.execute("SELECT * FROM `groups` WHERE id = %s", (group_id,))
 print(cursor.fetchall())
 
 
 """Создание предметов и проверка"""
-cursor.execute("INSERT INTO subjects (title) VALUES (%s)",
-               ('Новый Ежедневный мем',))
-subject_1 = cursor.lastrowid
-cursor.execute("INSERT INTO subjects (title) VALUES (%s)",
-               ('Супер новый Ежедневный мем',))
-subject_2 = cursor.lastrowid
+subjects = [('Новый Ежедневный мем',), ('Супер новый Ежедневный мем',)]
+subject_id = []
+for i in subjects:
+    cursor.execute("INSERT INTO subjects (title) VALUES (%s)", i)
+    subject_id.append(cursor.lastrowid)
+subject1, subject2 = subject_id
 
-cursor.execute(f"SELECT * FROM subjects WHERE id IN ({subject_1}, {subject_2})")
+cursor.execute("SELECT * FROM subjects WHERE id IN (%s, %s)", (subject1, subject2))
 print(cursor.fetchall())
 
 
 "Создание занятий для предметов и проверка"
-cursor.execute("INSERT INTO lessons (title, subject_id) VALUES (%s, %s)",
-               ("Новая тренировка", subject_1))
-lesson_id1 = cursor.lastrowid
+lessons = [("Новая тренировка", subject1), ("Супер новая тренировка", subject2)]
+lesson_id = []
+for i in lessons:
+    cursor.execute("INSERT INTO lessons (title, subject_id) VALUES (%s, %s)", i)
+    lesson_id.append(cursor.lastrowid)
+lesson_id1, lesson_id2 = lesson_id
 
-cursor.execute("INSERT INTO lessons (title, subject_id) VALUES (%s, %s)",
-               ("Супер новая тренировка", subject_2))
-lesson_id2 = cursor.lastrowid
-
-cursor.execute(f"SELECT * FROM lessons WHERE id IN ({lesson_id1}, {lesson_id2})")
+cursor.execute("SELECT * FROM lessons WHERE id IN (%s, %s)", (lesson_id1, lesson_id2))
 print(cursor.fetchall())
 
 
 "Проставление оценки за занятие и проверка"
-cursor.execute("INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)",
-               (5, lesson_id1, student_id))
-mark_id1 = cursor.lastrowid
+cursor.executemany("INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)",
+                   [(5, lesson_id1, student_id), (5, lesson_id2, student_id)])
 
-cursor.execute("INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)",
-               (5, lesson_id2, student_id))
-mark_id2 = cursor.lastrowid
-
-cursor.execute(f"SELECT * FROM marks WHERE id IN ({mark_id1}, {mark_id2})")
+cursor.execute("SELECT * FROM marks WHERE student_id = %s AND lesson_id IN (%s, %s)",
+               (student_id, lesson_id1, lesson_id2))
 print(cursor.fetchall())
 
 
 "Получите информацию из базы данных"
 
 "Все оценки студента"
-cursor.execute(f"SELECT * FROM marks WHERE student_id={student_id}")
+cursor.execute("SELECT * FROM marks WHERE student_id = %s", (student_id,))
 print(cursor.fetchall())
 
 
 "Все книги, которые находятся у студента"
-cursor.execute(f"SELECT * FROM books WHERE taken_by_student_id ={student_id}")
+cursor.execute("SELECT * FROM books WHERE taken_by_student_id = %s", (student_id,))
 print(cursor.fetchall())
 
 
 "Для вашего студента выведите всё, что о нем есть в базе"
-cursor.execute(f"""SELECT
+cursor.execute("""SELECT
       g.title as Название_группы,
       CONCAT(s.name, ' ', s.second_name) as Студент,
       b.title as Книга_из_библиотеки,
@@ -112,8 +104,8 @@ cursor.execute(f"""SELECT
       INNER JOIN lessons l ON m.lesson_id = l.id
       INNER JOIN subjects s2 ON l.subject_id = s2.id
     WHERE
-      s.id = {student_id}""")
+      s.id = %s""", (student_id,))
 print(cursor.fetchall())
-db.commit()
+# db.commit()
 
 db.close()
