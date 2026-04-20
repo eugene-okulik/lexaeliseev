@@ -106,6 +106,6 @@ cursor.execute("""SELECT
     WHERE
       s.id = %s""", (student_id,))
 print(cursor.fetchall())
-# db.commit()
+db.commit()
 
 db.close()
